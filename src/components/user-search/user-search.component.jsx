@@ -3,14 +3,15 @@ import GithubContext from "../../context/github/github.context";
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { userData } = useContext(GithubContext);
+  const { userData, searchUsers } = useContext(GithubContext);
 
   const handleInputChange = (e) => setSearchQuery(e.target.value);
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchQuery === "") {
+    if (searchQuery.trim() === "") {
       alert("Please enter something!");
     } else {
+      searchUsers(searchQuery);
       // @todo implement user search
     }
     setSearchQuery("");

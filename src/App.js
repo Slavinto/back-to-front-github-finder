@@ -16,7 +16,7 @@ import { GithubProvider } from "./context/github/github.context.js";
 
 function App() {
   const mainComponentMarkup = (
-    <div className="flex flex-col justify-between h-screen bg-gray-600">
+    <div className="flex flex-col justify-between h-full bg-gray-600">
       <Navbar />
       <main className="container mx-auto px-3 bp-12">
         <Outlet />
