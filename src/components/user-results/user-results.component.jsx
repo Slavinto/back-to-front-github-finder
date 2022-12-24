@@ -1,33 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+
+import Spinner from "../layout/spinner/spinner.component";
+import UserItem from "../user-item/user-item.component.jsx";
+import GithubContext from "../../context/github/github.context.js";
 
 const UserResults = () => {
-  const [userData, setUserData] = useState([]);
+  const { loading, userData } = useContext(GithubContext);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
-    console.log(process.env.REACT_APP_GITHUB_TOKEN);
-    const response = await fetch(
-      `${process.env.REACT_APP_GITHUB_URL}/users`
-      // , {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
-      //   },
-      // }
+  if (!loading) {
+    return (
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+        {userData.map((user) => (
+          <UserItem key={user.id} user={user} />
+        ))}
+      </div>
     );
-    const data = await response.json();
-    console.log(data);
-    data.length && setUserData(data);
-  };
-
-  return (
-    <>
-      <div>{userData.map((user) => user)}</div>
-    </>
-  );
+  } else {
+    return (
+      <h3>
+        <Spinner />
+      </h3>
+    );
+  }
 };
 
 export default UserResults;
