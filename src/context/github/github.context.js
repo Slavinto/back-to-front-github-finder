@@ -38,7 +38,6 @@ export const GithubProvider = ({ children }) => {
       value={{
         userData: state.userData,
         loading: state.loading,
-        fetchUsers,
       }}
     >
       {children}
