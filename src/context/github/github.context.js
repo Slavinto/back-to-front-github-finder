@@ -15,35 +15,45 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(githubReducer, initialState);
 
-  const searchUsers = async (text) => {
-    startLoading();
-
-    const params = new URLSearchParams({
-      q: text,
-    });
-
-    const response = await fetch(
-      `${GITHUB_URL}/search/users?${params}`
-      // , {
-      //   method: "GET",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
-      //   },
-      // }
-    );
-    const { items } = await response.json();
-
+  const resetSearch = () => {
     dispatch({
-      type: "GET_USER_DATA",
-      userData: items,
-      loading: false,
+      type: "RESET_SEARCH",
+      initState: initialState,
     });
+  };
 
-    function startLoading() {
-      dispatch({
-        type: "START_LOADING",
+  const searchUsers = async (text) => {
+    try {
+      startLoading();
+      const params = new URLSearchParams({
+        q: text,
       });
+
+      const response = await fetch(
+        `${GITHUB_URL}/search/users?${params}`
+        // , {
+        //   method: "GET",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${process.env.REACT_APP_GITHUB_TOKEN}`,
+        //   },
+        // }
+      );
+      const { items } = await response.json();
+
+      dispatch({
+        type: "GET_USER_DATA",
+        userData: items,
+        loading: false,
+      });
+
+      function startLoading() {
+        dispatch({
+          type: "START_LOADING",
+        });
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -53,6 +63,7 @@ export const GithubProvider = ({ children }) => {
         userData: state.userData,
         loading: state.loading,
         searchUsers,
+        resetSearch,
       }}
     >
       {children}

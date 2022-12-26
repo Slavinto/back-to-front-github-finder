@@ -3,7 +3,7 @@ import GithubContext from "../../context/github/github.context";
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { userData, searchUsers } = useContext(GithubContext);
+  const { userData, searchUsers, resetSearch } = useContext(GithubContext);
 
   const handleInputChange = (e) => setSearchQuery(e.target.value);
   const handleSubmit = (e) => {
@@ -12,10 +12,11 @@ const UserSearch = () => {
       alert("Please enter something!");
     } else {
       searchUsers(searchQuery);
-      // @todo implement user search
     }
     setSearchQuery("");
   };
+
+  const handleClearClick = () => resetSearch();
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8">
@@ -42,7 +43,9 @@ const UserSearch = () => {
       </div>
       <div>
         {userData.length > 0 && (
-          <button className="btn btn-ghost btn-lg">Clear</button>
+          <button onClick={handleClearClick} className="btn btn-ghost btn-lg">
+            Clear
+          </button>
         )}
       </div>
     </div>

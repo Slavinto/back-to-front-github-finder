@@ -11,6 +11,10 @@ const githubReducer = (state, action) => {
         ...state,
         loading: true,
       };
+    case "RESET_SEARCH":
+      return {
+        ...action.initState,
+      };
     default:
       return state;
   }
