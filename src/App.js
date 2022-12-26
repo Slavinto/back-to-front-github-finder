@@ -13,10 +13,11 @@ import Footer from "./components/layout/footer/footer.component";
 import NotFound from "./components/not-found/not-found.component";
 import Home from "./components/home/home.component";
 import { GithubProvider } from "./context/github/github.context.js";
+import { AlertProvider } from "./context/alert/alert-context.js";
 
 function App() {
   const mainComponentMarkup = (
-    <div className="flex flex-col justify-between h-full bg-gray-600">
+    <div className="flex flex-col justify-between bg-gray-600 h-screen">
       <Navbar />
       <main className="container mx-auto px-3 bp-12">
         <Outlet />
@@ -56,7 +57,9 @@ function App() {
 
   return (
     <GithubProvider>
-      <RouterProvider router={router} />
+      <AlertProvider>
+        <RouterProvider router={router} />
+      </AlertProvider>
     </GithubProvider>
   );
 }
