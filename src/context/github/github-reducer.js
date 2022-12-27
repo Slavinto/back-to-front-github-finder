@@ -1,9 +1,15 @@
 const githubReducer = (state, action) => {
   switch (action.type) {
-    case "GET_USER_DATA":
+    case "GET_USERS_DATA":
       return {
         ...state,
         userData: action.userData,
+        loading: action.loading,
+      };
+    case "GET_USER":
+      return {
+        ...state,
+        user: action.user,
         loading: action.loading,
       };
     case "START_LOADING":

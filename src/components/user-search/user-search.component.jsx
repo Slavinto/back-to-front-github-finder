@@ -11,7 +11,7 @@ const UserSearch = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim() === "") {
-      setAlert("Please enter something!", error);
+      setAlert("Please enter something!", "error");
     } else {
       searchUsers(searchQuery);
     }
