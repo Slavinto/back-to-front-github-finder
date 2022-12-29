@@ -30,6 +30,10 @@ function App() {
     </div>
   );
 
+  if (window.location.pathname === "/") {
+    window.location = "/home";
+  }
+
   // const { curUser } = useContext(GithubContext);
 
   const router = createBrowserRouter([

@@ -1,24 +1,28 @@
 import { useState, useContext } from "react";
 import GithubContext from "../../context/github/github.context";
 import AlertContext from "../../context/alert/alert-context";
+import { searchUsers } from "../../actions/github-actions";
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { userData, searchUsers, resetSearch } = useContext(GithubContext);
+  const { userData, dispatch } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
   const handleInputChange = (e) => setSearchQuery(e.target.value);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (searchQuery.trim() === "") {
       setAlert("Please enter something!", "error");
     } else {
-      searchUsers(searchQuery);
-    }
-    setSearchQuery("");
-  };
+      dispatch({ type: "SET_LOADING", loading: true });
 
-  const handleClearClick = () => resetSearch();
+      const userData = await searchUsers(searchQuery);
+
+      dispatch({ type: "GET_USERS_DATA", userData, loading: false });
+
+      setSearchQuery("");
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8">
@@ -45,7 +49,10 @@ const UserSearch = () => {
       </div>
       <div>
         {userData.length > 0 && (
-          <button onClick={handleClearClick} className="btn btn-ghost btn-lg">
+          <button
+            onClick={() => dispatch({ type: "RESET_SEARCH" })}
+            className="btn btn-ghost btn-lg"
+          >
             Clear
           </button>
         )}
